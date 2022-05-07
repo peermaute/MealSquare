@@ -16,6 +16,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class Meal {
+
     @Id
     private String id;
 
@@ -39,13 +40,30 @@ public class Meal {
      * @return
      */
     public boolean containsDots(){
-        if(name.contains(".") || carbBase.contains(".") || ingredientsContainDots() || tagsContainDots()){
+        if(nameContainsDots() || carbBaseContainsDots() || ingredientsContainDots() || tagsContainDots()){
             return true;
         }
         return false;
     }
 
+    private boolean nameContainsDots(){
+        if(name == null){
+            return false;
+        }
+        return name.contains(".");
+    }
+
+    private boolean carbBaseContainsDots(){
+        if(carbBase == null){
+            return false;
+        }
+        return carbBase.contains(".");
+    }
+
     private boolean ingredientsContainDots() {
+        if(ingredients == null){
+            return false;
+        }
         for(Map.Entry<String, String> entry: ingredients.entrySet()){
             if(entry.getValue().contains(".") || entry.getKey().contains(".")){
                 return true;
@@ -55,10 +73,28 @@ public class Meal {
     }
 
     private boolean tagsContainDots() {
+        if(tags == null){
+            return false;
+        }
         for(String curEntry: tags){
             if(curEntry.contains(".")){
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(obj.getClass() != this.getClass() ){
+            return false;
+        }
+        final Meal otherMeal = (Meal) obj;
+        if(otherMeal.getId().equals(this.id)){
+            return true;
         }
         return false;
     }
