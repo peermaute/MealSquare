@@ -1,5 +1,5 @@
 # MealSquare
-This will be an application to help you sort out what you want to cook.\
+MealSquare is an application to help you sort out what you want to cook.\
 The database contains a number of meals from my personal heavy rotation and a variety of other approved meals.
 
 ## Generate a meal plan
