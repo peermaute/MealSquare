@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * MealService implements all methods to access the database.
+ */
 @Service
 public class MealService {
 
@@ -17,6 +20,10 @@ public class MealService {
         this.mealRepository = mealRepository;
     }
 
+    /**
+     * Creates a new meal in the database.
+     * @param meal
+     */
     public void newMeal(Meal meal) {
         if(meal == null){
             throw new IllegalArgumentException("Argument ist null!");
@@ -27,6 +34,10 @@ public class MealService {
         mealRepository.save(meal);
     }
 
+    /**
+     * Deletes the meal with the given id from the database.
+     * @param id
+     */
     public void deleteMeal(String id) {
         if(id == null){
             throw new IllegalArgumentException("ID must not be null");
@@ -39,6 +50,11 @@ public class MealService {
         }
     }
 
+    /**
+     * Returns the meal with the given id from the database.
+     * @param id
+     * @return
+     */
     public Meal getMeal(String id) {
         if(id == null){
             throw new IllegalArgumentException("ID must not be null");
@@ -51,6 +67,11 @@ public class MealService {
         }
     }
 
+    /**
+     * Updates the meal with the given id in the database. The Meal argument contains all fields that should be updated.
+     * @param id
+     * @param meal
+     */
     public void updateMeal(String id, Meal meal) {
         if(id == null){
             throw new IllegalArgumentException("ID must not be null");
@@ -83,6 +104,16 @@ public class MealService {
         mealRepository.save(updMeal);
     }
 
+    /**
+     * Filter search:
+     * Searches the database for entries that match the criteria displayed by the arguments.
+     * @param name
+     * @param carbBase
+     * @param ingredient
+     * @param tag
+     * @param maxPrepTime
+     * @return
+     */
     public List<Meal> fetchStudentsByProperties(String name, String carbBase, String ingredient,
                                                 String tag, int maxPrepTime){
         return mealRepository.findMealsByProperties(name, carbBase, ingredient, tag, maxPrepTime);

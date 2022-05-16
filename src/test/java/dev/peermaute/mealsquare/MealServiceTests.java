@@ -139,4 +139,6 @@ public class MealServiceTests {
         mealRepository.save(meal);
         assertEquals(size + 1, mealRepository.findMealsByProperties(null, null, null, null, 100).size());
     }
+
+    //TODO: More tests for filters with more than one criteria
 }

@@ -5,10 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This controller creates a REST API to access the MealSquare database.
+ */
 @CrossOrigin("*")
 @RestController
 public class Controller {
 
+    /**
+     * The controller accesses the database indirectly through the MealService.
+     */
     private MealService mealService;
 
     @Autowired
@@ -16,11 +22,11 @@ public class Controller {
         this.mealService = mealService;
     }
 
-    @GetMapping(path = "/hello")
-    public ResponseEntity<String> helloWorld(){
-        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
-    }
-
+    /**
+     * Returns the meal with the given id.
+     * @param id
+     * @return
+     */
     @GetMapping(path = "/meal/{id}")
     public ResponseEntity<?> getMeal(@PathVariable String id){
         try{
@@ -33,6 +39,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Creates a new meal in the database.
+     * This request body should contain a Meal in JSON format.
+     * @param meal
+     * @return
+     */
     @PostMapping(path = "/meal")
     public ResponseEntity<String> newMeal(@RequestBody Meal meal){
         try{
@@ -45,6 +57,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Deletes the meal with the given id from the database.
+     * @param id
+     * @return
+     */
     @DeleteMapping(path = "/meal/{id}")
     public ResponseEntity<String> deleteMeal(@PathVariable String id){
         try{
@@ -57,6 +74,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Updates the meal with the given id. The request body should consist of a Meal in JSON format with the fields that should be updated.
+     * @param id
+     * @param meal
+     * @return
+     */
     @PutMapping(path = "/meal/{id}")
     public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal){
         try{

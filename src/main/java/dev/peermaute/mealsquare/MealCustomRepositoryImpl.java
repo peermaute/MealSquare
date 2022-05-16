@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation for MealCustomRepository. Implements more complex queries.
+ */
 @Repository
 public class MealCustomRepositoryImpl implements MealCustomRepository{
     MongoTemplate mongoTemplate;
@@ -18,6 +21,15 @@ public class MealCustomRepositoryImpl implements MealCustomRepository{
         this.mongoTemplate = mongoTemplate;
     }
 
+    /**
+     * Returns all entries in the database that match the criteria.
+     * @param name
+     * @param carbBase
+     * @param ingredient
+     * @param tag
+     * @param maxPrepTime
+     * @return
+     */
     @Override
     public List<Meal> findMealsByProperties(String name, String carbBase, String ingredient,
                                                String tag, int maxPrepTime) {
