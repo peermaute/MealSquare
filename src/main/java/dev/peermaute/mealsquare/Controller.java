@@ -1,9 +1,13 @@
 package dev.peermaute.mealsquare;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * This controller creates a REST API to access the MealSquare database.
@@ -27,7 +31,7 @@ public class Controller {
      * @param id
      * @return
      */
-    @GetMapping(path = "/meal/{id}")
+    @GetMapping(path = "/meals/{id}")
     public ResponseEntity<?> getMeal(@PathVariable String id){
         try{
             mealService.getMeal(id);
@@ -45,7 +49,7 @@ public class Controller {
      * @param meal
      * @return
      */
-    @PostMapping(path = "/meal")
+    @PostMapping(path = "/meals")
     public ResponseEntity<String> newMeal(@RequestBody Meal meal){
         try{
             mealService.newMeal(meal);
@@ -62,7 +66,7 @@ public class Controller {
      * @param id
      * @return
      */
-    @DeleteMapping(path = "/meal/{id}")
+    @DeleteMapping(path = "/meals/{id}")
     public ResponseEntity<String> deleteMeal(@PathVariable String id){
         try{
             mealService.deleteMeal(id);
@@ -80,7 +84,7 @@ public class Controller {
      * @param meal
      * @return
      */
-    @PutMapping(path = "/meal/{id}")
+    @PutMapping(path = "/meals/{id}")
     public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal){
         try{
             mealService.updateMeal(id, meal);
@@ -91,4 +95,15 @@ public class Controller {
             return new ResponseEntity<>("Update failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Returns the meals in the database that match the filter.
+     * @param filter
+     * @return
+     */
+    @PostMapping(path = "/meals/filters")
+    public ResponseEntity<List<Meal>> getMealsFiltered(@RequestBody Filter filter){
+        return new ResponseEntity<>(mealService.fetchStudentsByProperties(filter), HttpStatus.OK);
+    }
+
 }

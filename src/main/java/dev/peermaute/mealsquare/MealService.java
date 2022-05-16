@@ -107,15 +107,10 @@ public class MealService {
     /**
      * Filter search:
      * Searches the database for entries that match the criteria displayed by the arguments.
-     * @param name
-     * @param carbBase
-     * @param ingredient
-     * @param tag
-     * @param maxPrepTime
+     * @param filter
      * @return
      */
-    public List<Meal> fetchStudentsByProperties(String name, String carbBase, String ingredient,
-                                                String tag, int maxPrepTime){
-        return mealRepository.findMealsByProperties(name, carbBase, ingredient, tag, maxPrepTime);
+    public List<Meal> fetchStudentsByProperties(Filter filter){
+        return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getTag(), filter.getMaxPrepTime());
     }
 }
