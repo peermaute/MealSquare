@@ -1,8 +1,10 @@
 package dev.peermaute.mealsquare;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +15,8 @@ import java.util.Map;
  * A meal class.
  * The ingredients are defaulted for two persons. In the frontend this might be changed later.
  */
-@Getter
-@Setter
+@Document
+@Data
 public class Meal {
 
     @Id
@@ -36,7 +38,7 @@ public class Meal {
     private Map<String, String> ingredients;
 
     /**
-     * tags for the meal to make the search experience better - like "mediterranean". Will be implemented later on.
+     * tags for the meal to make the search experience better - like "mediterranean".
      */
     private List<String> tags;
 

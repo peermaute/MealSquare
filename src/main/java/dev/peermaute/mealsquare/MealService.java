@@ -3,6 +3,8 @@ package dev.peermaute.mealsquare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MealService {
 
@@ -79,5 +81,10 @@ public class MealService {
             updMeal.setTime(meal.getTime());
         }
         mealRepository.save(updMeal);
+    }
+
+    public List<Meal> fetchStudentsByProperties(String name, String carbBase, String ingredient,
+                                                String tag, int maxPrepTime){
+        return mealRepository.findMealsByProperties(name, carbBase, ingredient, tag, maxPrepTime);
     }
 }
