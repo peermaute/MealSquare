@@ -75,6 +75,9 @@ public class MealService {
         if(meal.getCarbBase() != null){
             updMeal.setCarbBase(meal.getCarbBase());
         }
+        if(meal.getTime() != 0){
+            updMeal.setTime(meal.getTime());
+        }
         mealRepository.save(updMeal);
     }
 }

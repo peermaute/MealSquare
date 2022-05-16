@@ -72,6 +72,7 @@ public class MealServiceTests {
         updMeal.setIngredients(ingredients);
         updMeal.setName("Banana bread");
         updMeal.setTags(Arrays.asList(new String[]{"oven", "fruity"}));
+        updMeal.setTime(30);
 
         mealService.updateMeal(meal.getId(), updMeal);
 
@@ -80,5 +81,6 @@ public class MealServiceTests {
         assertEquals(meal.getName(), updMeal.getName());
         assertEquals(meal.getTags(), updMeal.getTags());
         assertEquals(meal.getIngredients(), updMeal.getIngredients());
+        assertEquals(meal.getTime(), updMeal.getTime());
     }
 }

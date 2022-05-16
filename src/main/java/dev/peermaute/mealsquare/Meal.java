@@ -20,13 +20,30 @@ public class Meal {
     @Id
     private String id;
 
+    /**
+     * The name of the meal
+     */
     private String name;
 
+    /**
+     * The carb base of the meal -  for example noodles, bread or rice.
+     */
     private String carbBase;
 
+    /**
+     * The ingredients for the meal - note that these should be set to the amount for a meal for 2 persons.
+     */
     private Map<String, String> ingredients;
 
+    /**
+     * tags for the meal to make the search experience better - like "mediterranean". Will be implemented later on.
+     */
     private List<String> tags;
+
+    /**
+     * Time you need for preparation and cooking - in minutes
+     */
+    private int time;
 
     public Meal(){
         ingredients = new HashMap<>();
