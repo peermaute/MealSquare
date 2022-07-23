@@ -135,7 +135,7 @@ public class MealServiceTests {
 
     @Test
     void testFetchMealsByPropertiesMaxPrepTime(){
-        int size = mealRepository.findMealsByProperties(null, null, null, null, 2).size();
+        int size = mealRepository.findMealsByProperties(null, null, null, null, 100).size();
         meal.setTime(1);
         mealRepository.save(meal);
         assertEquals(size + 1, mealRepository.findMealsByProperties(null, null, null, null, 100).size());

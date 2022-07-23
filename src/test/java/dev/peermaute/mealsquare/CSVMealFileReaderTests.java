@@ -46,7 +46,7 @@ public class CSVMealFileReaderTests {
         assertEquals("pizza", mealList.get(1).getName());
         assertEquals(new ArrayList<>(Arrays.asList(new String[]{"fast", "easy"})), mealList.get(0).getTags());
         assertEquals(null, mealList.get(1).getCarbBase());
-        assertEquals(0, mealList.get(2).getTime());
+        assertEquals(99999, mealList.get(2).getTime());
     }
 
     /*
