@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,5 +141,14 @@ public class MealServiceTests {
         assertEquals(size + 1, mealRepository.findMealsByProperties(null, null, null, null, 100).size());
     }
 
+    /*
+    @Test
+    void testGetMealsUnder30min(){
+        List<Meal> mealList = mealRepository.findMealsByProperties(null, null, null, null, 30);
+        for(Meal meal: mealList){
+            System.out.println(meal.getName());
+        }
+    }
+     */
     //TODO: More tests for filters with more than one criteria
 }

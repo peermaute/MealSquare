@@ -21,4 +21,5 @@ class MongoDBTests {
         mealRepository.delete(meal);
         assertFalse(mealRepository.findById(meal.getId()).isPresent());
     }
+
 }

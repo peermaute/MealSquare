@@ -16,7 +16,8 @@ import java.util.Map;
  * The ingredients are defaulted for two persons. In the frontend this might be changed later.
  */
 @Document
-@Data
+@Getter
+@Setter
 public class Meal {
 
     @Id
@@ -50,6 +51,7 @@ public class Meal {
     public Meal(){
         ingredients = new HashMap<>();
         tags = new ArrayList<>();
+        time = 99999;
     }
 
     //TODO: Maybe also special character? not only dots

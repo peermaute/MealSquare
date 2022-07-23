@@ -43,7 +43,7 @@ public class MealCustomRepositoryImpl implements MealCustomRepository{
         if (tag != null && !tag.isEmpty())
             criteria.add(Criteria.where("tags").in(tag));
         if (maxPrepTime > 0)
-            criteria.add(Criteria.where("time").lt(maxPrepTime));
+            criteria.add(Criteria.where("time").lte(maxPrepTime));
         List<Meal> mealList;
         if (!criteria.isEmpty()){
             query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[criteria.size()])));
