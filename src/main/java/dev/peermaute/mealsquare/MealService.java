@@ -111,6 +111,6 @@ public class MealService {
      * @return
      */
     public List<Meal> fetchStudentsByProperties(Filter filter){
-        return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getTag(), filter.getMaxPrepTime());
+        return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getDoesNotContain(), filter.getTag(), filter.getMaxPrepTime());
     }
 }

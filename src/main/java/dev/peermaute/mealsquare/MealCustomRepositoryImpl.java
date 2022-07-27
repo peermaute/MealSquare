@@ -31,7 +31,7 @@ public class MealCustomRepositoryImpl implements MealCustomRepository{
      * @return
      */
     @Override
-    public List<Meal> findMealsByProperties(String name, String carbBase, String ingredient,
+    public List<Meal> findMealsByProperties(String name, String carbBase, String ingredient, String doesNotContain,
                                                String tag, int maxPrepTime) {
         final Query query = new Query();
 //     query.fields().include("id").include("name");
@@ -52,16 +52,33 @@ public class MealCustomRepositoryImpl implements MealCustomRepository{
         else{
             mealList = mongoTemplate.findAll(Meal.class);
         }
-        if(ingredient != null && !ingredient.isEmpty()){
-            //Really not performant. Find out later how to create a query for key set of map.
-            List<Meal> filteredMealList = new ArrayList<>();
-            for(Meal meal: mealList){
-                if(meal.getIngredients().containsKey(ingredient)){
-                    filteredMealList.add(meal);
-                }
-            }
-            return filteredMealList;
-        }
-        return mealList;
+        return filterMealListWithIngredients(ingredient, doesNotContain, mealList);
     }
+
+    private List<Meal> filterMealListWithIngredients(String ingredient, String doesNotContain, List<Meal> mealList) {
+        boolean useIngredientFilter = ingredient != null && !ingredient.isEmpty();
+        boolean useDoesNotContainFilter = doesNotContain != null && !doesNotContain.isEmpty();
+        if(!useIngredientFilter && !useDoesNotContainFilter){
+            return mealList;
+        }
+        List<Meal> filteredMealList = new ArrayList<>();
+        for(Meal meal: mealList){
+            if(shouldBeAddedToMealList(meal, useIngredientFilter, useDoesNotContainFilter, ingredient, doesNotContain)){
+                filteredMealList.add(meal);
+            }
+        }
+        return filteredMealList;
+    }
+
+    private boolean shouldBeAddedToMealList(Meal meal, boolean useIngredientFilter, boolean useDoesNotContainFilter, String ingredient, String doesNotContain) {
+        boolean shouldBeAddedToMealList = false;
+        if(useIngredientFilter && meal.getIngredients().containsKey(ingredient)){
+            shouldBeAddedToMealList = true;
+        }
+        if(useDoesNotContainFilter && meal.getIngredients().containsKey(doesNotContain) == false){
+            shouldBeAddedToMealList = true;
+        }
+        return shouldBeAddedToMealList;
+    }
+
 }

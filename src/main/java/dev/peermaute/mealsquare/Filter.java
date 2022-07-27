@@ -14,6 +14,8 @@ public class Filter {
 
     private String ingredient;
 
+    private String doesNotContain;
+
     private String tag;
 
     private int maxPrepTime;
