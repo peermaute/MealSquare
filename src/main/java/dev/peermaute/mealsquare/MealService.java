@@ -125,7 +125,6 @@ public class MealService {
             //TODO: Use Pagination
             List<Meal> mealList = mealRepository.findAll();
             return getRandomMeals(mealList, days);
-
         }
         List<Meal> mealList = fetchStudentsByProperties(filter);
         if(mealList.size() > days){
