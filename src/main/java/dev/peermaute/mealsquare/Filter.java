@@ -1,11 +1,13 @@
 package dev.peermaute.mealsquare;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Class to create filter criteria more easily.
  */
 @Data
+@AllArgsConstructor
 public class Filter {
 
     private String name;

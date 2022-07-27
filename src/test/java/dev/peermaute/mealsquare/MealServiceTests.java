@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -160,5 +157,33 @@ public class MealServiceTests {
         }
     }
      */
+
+    @Test
+    void testGetMealPlanNoFilter(){
+        //AfterEach
+        mealRepository.save(meal);
+
+        List<Meal> mealList = mealService.getMealPlan(null, 7);
+        assertEquals(7, mealList.size());
+        Set<Meal> set = new HashSet<>(mealList);
+        if(mealList.size() != set.size()){
+            fail();
+        }
+    }
+
+    @Test
+    void testGetMealPlanFilter(){
+        meal.setName("123414124214412Carrot");
+        meal.setTime(10);
+        mealRepository.save(meal);
+
+        List<Meal> mealList = mealService.getMealPlan(new Filter("123414124214412Carrot", null, null, null, null, 100), 1);
+        assertEquals(1, mealList.size());
+        Set<Meal> set = new HashSet<>(mealList);
+        if(mealList.size() != set.size()){
+            fail();
+        }
+        assertEquals(meal, mealList.get(0));
+    }
     //TODO: More tests for filters with more than one criteria
 }

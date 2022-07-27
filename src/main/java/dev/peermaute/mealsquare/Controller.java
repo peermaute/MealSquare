@@ -104,4 +104,18 @@ public class Controller {
         return new ResponseEntity<>(mealService.fetchStudentsByProperties(filter), HttpStatus.OK);
     }
 
+    /**
+     * Returns a meal plan (List of meals) for a number of days.
+     * The number of days can be specified as a request parameter of the request ("days"). The default value is 5.
+     */
+    @PostMapping(path = "/meals/mealPlan")
+    public ResponseEntity<?> getMealPlan(@RequestParam(name = "days", required = false, defaultValue = "5") Integer days, @RequestBody Filter filter){
+        try{
+            return new ResponseEntity<>(mealService.getMealPlan(filter, days), HttpStatus.OK);
+        }
+        catch (IllegalArgumentException iae){
+            return new ResponseEntity<>(iae.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

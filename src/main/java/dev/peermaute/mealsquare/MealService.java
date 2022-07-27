@@ -3,15 +3,15 @@ package dev.peermaute.mealsquare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * MealService implements all methods to access the database.
  */
 @Service
 public class MealService {
-
-    //TODO: Write Filters/methods
 
     private MealRepository mealRepository;
 
@@ -112,5 +112,34 @@ public class MealService {
      */
     public List<Meal> fetchStudentsByProperties(Filter filter){
         return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getDoesNotContain(), filter.getTag(), filter.getMaxPrepTime());
+    }
+
+    /**
+     * Returns a list of meals (meal plan) for a given number of days that match the filter.
+     */
+    public List<Meal> getMealPlan(Filter filter, int days){
+        if(days < 1 || days >= 30){
+            throw new IllegalArgumentException("Days must be bigger than 0 and smaller than 30");
+        }
+        if(filter == null){
+            //TODO: Use Pagination
+            List<Meal> mealList = mealRepository.findAll();
+            return getRandomMeals(mealList, days);
+
+        }
+        List<Meal> mealList = fetchStudentsByProperties(filter);
+        if(mealList.size() > days){
+            throw new IllegalArgumentException("Not enough recipes with given filters found for amount of days");
+        }
+        return getRandomMeals(mealList, days);
+    }
+
+    private List<Meal> getRandomMeals(List<Meal> mealList, int numberOfMeals) {
+        final int[] randomNumbers = new Random().ints(0, mealList.size()).distinct().limit(numberOfMeals).toArray();
+        List<Meal> returnList = new ArrayList<>();
+        for(int i: randomNumbers){
+            returnList.add(mealList.get(i));
+        }
+        return returnList;
     }
 }
