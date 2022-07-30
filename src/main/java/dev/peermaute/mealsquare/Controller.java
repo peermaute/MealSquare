@@ -36,7 +36,6 @@ public class Controller {
             return new ResponseEntity<>(mealService.getMeal(id), HttpStatus.OK);
         }
         catch(Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>("GET Request failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -54,7 +53,6 @@ public class Controller {
             return new ResponseEntity<>("Creation successful", HttpStatus.CREATED);
         }
         catch(Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>("Creation failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -71,7 +69,6 @@ public class Controller {
             return new ResponseEntity<>("Deletion successful", HttpStatus.OK);
         }
         catch(Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>("Deletion failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -89,7 +86,6 @@ public class Controller {
             return new ResponseEntity<>("Update successful", HttpStatus.OK);
         }
         catch(Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>("Update failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
