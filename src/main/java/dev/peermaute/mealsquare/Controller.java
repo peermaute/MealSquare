@@ -97,7 +97,7 @@ public class Controller {
      */
     @PostMapping(path = "/meals/filters")
     public ResponseEntity<List<Meal>> getMealsFiltered(@RequestBody Filter filter){
-        return new ResponseEntity<>(mealService.fetchStudentsByProperties(filter), HttpStatus.OK);
+        return new ResponseEntity<>(mealService.fetchMealsByProperties(filter), HttpStatus.OK);
     }
 
     /**
@@ -109,8 +109,8 @@ public class Controller {
         try{
             return new ResponseEntity<>(mealService.getMealPlan(filter, days), HttpStatus.OK);
         }
-        catch (IllegalArgumentException iae){
-            return new ResponseEntity<>(iae.getMessage(), HttpStatus.BAD_REQUEST);
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

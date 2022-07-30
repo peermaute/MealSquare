@@ -77,7 +77,7 @@ public class MealService {
             throw new IllegalArgumentException("ID must not be null");
         }
         if(meal.getId() != null && meal.getId().equals(id) == false){
-            throw new IllegalArgumentException("ID must not be null");
+            throw new IllegalArgumentException("IDs must be the same");
         }
         Meal updMeal;
         if(mealRepository.findById(id).isPresent()){
@@ -110,7 +110,7 @@ public class MealService {
      * @param filter
      * @return
      */
-    public List<Meal> fetchStudentsByProperties(Filter filter){
+    public List<Meal> fetchMealsByProperties(Filter filter){
         return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getDoesNotContain(), filter.getTag(), filter.getMaxPrepTime());
     }
 
@@ -126,8 +126,8 @@ public class MealService {
             List<Meal> mealList = mealRepository.findAll();
             return getRandomMeals(mealList, days);
         }
-        List<Meal> mealList = fetchStudentsByProperties(filter);
-        if(mealList.size() > days){
+        List<Meal> mealList = fetchMealsByProperties(filter);
+        if(mealList.size() < days){
             throw new IllegalArgumentException("Not enough recipes with given filters found for amount of days");
         }
         return getRandomMeals(mealList, days);

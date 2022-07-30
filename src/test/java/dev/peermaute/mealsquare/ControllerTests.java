@@ -5,8 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -94,6 +96,42 @@ public class ControllerTests {
     @Test
     void testUpdateMealMealNull(){
         ResponseEntity<?> response = controller.updateMeal(meal.getId(), null);
+        assertFalse(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    void testGetMealsFiltered(){
+        final String name = "131231234142223123";
+        final Filter filter = new Filter(name, null, null, null, null, 20);
+        meal.setTime(10);
+        meal.setName(name);
+        mealRepository.save(meal);
+        ResponseEntity<List<Meal>> response = controller.getMealsFiltered(filter);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        List<Meal> mealList = response.getBody();
+        assert mealList != null;
+        assertTrue(mealList.contains(meal));
+    }
+
+    @Test
+    void testGetMealPlan(){
+        final Filter filter = new Filter(null, null, null, null, null, 60);
+        final int days = 7;
+        ResponseEntity<?> response = controller.getMealPlan(days, filter);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+        if(response.getBody() instanceof List<?> list){
+            assertEquals(7, list.size());
+        }
+        else{
+            fail();
+        }
+    }
+
+    @Test
+    void testGetMealPlanNegativeDays(){
+        final Filter filter = new Filter(null, null, null, null, null, 60);
+        final int days = -1;
+        ResponseEntity<?> response = controller.getMealPlan(days, filter);
         assertFalse(response.getStatusCode().is2xxSuccessful());
     }
 }

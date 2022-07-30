@@ -29,13 +29,20 @@ public class MealServiceTests {
     }
     @AfterEach
     void cleanUp(){
-        mealRepository.delete(meal);
+
     }
 
     @Test
     void testNewMeal(){
         mealService.newMeal(meal);
         assertTrue(mealRepository.findById(meal.getId()).isPresent());
+        mealRepository.delete(meal);
+    }
+
+    @Test
+    void testNewMealWithDots(){
+        meal.setCarbBase("bread.butter");
+        assertThrows(Exception.class, () -> mealService.newMeal(meal));
     }
 
     @Test
@@ -47,11 +54,21 @@ public class MealServiceTests {
     }
 
     @Test
+    void testDeleteUnknownMeal(){
+        assertThrows(Exception.class, () -> mealService.deleteMeal("uenbdueundiedua1231312412"));
+    }
+
+    @Test
     void testGetMeal(){
         mealRepository.save(meal);
         Meal meal2 = mealService.getMeal(meal.getId());
         assertEquals(meal, meal2);
         mealRepository.delete(meal);
+    }
+
+    @Test
+    void testGetMealIdNull(){
+        assertThrows(Exception.class, () -> mealService.getMeal(null));
     }
 
     @Test
@@ -80,7 +97,57 @@ public class MealServiceTests {
         assertEquals(meal.getTags(), updMeal.getTags());
         assertEquals(meal.getIngredients(), updMeal.getIngredients());
         assertEquals(meal.getTime(), updMeal.getTime());
+
+        mealRepository.delete(meal);
     }
+
+    @Test
+    void testUpdateMealTime(){
+        mealRepository.save(meal);
+
+        Meal updMeal = new Meal();
+        updMeal.setTime(30);
+
+        mealService.updateMeal(meal.getId(), updMeal);
+
+        meal = mealRepository.findById(meal.getId()).get();
+        assertEquals(meal.getTime(), updMeal.getTime());
+
+        mealRepository.delete(meal);
+    }
+
+    @Test
+    void testUpdateMealCarbBase(){
+        mealRepository.save(meal);
+
+        Meal updMeal = new Meal();
+        updMeal.setCarbBase("noodles");
+        updMeal.setTime(0);
+        updMeal.setTags(null);
+        updMeal.setIngredients(null);
+
+        mealService.updateMeal(meal.getId(), updMeal);
+
+        meal = mealRepository.findById(meal.getId()).get();
+        assertEquals(meal.getCarbBase(), updMeal.getCarbBase());
+
+        mealRepository.delete(meal);
+    }
+
+    @Test
+    void testUpdateMealDifferentIDs(){
+        mealRepository.save(meal);
+        assertThrows(Exception.class, () -> mealService.updateMeal("131231412412412", meal));
+        mealRepository.delete(meal);
+    }
+
+    @Test
+    void testUpdateMealUnknownID(){
+        final String id = "uiehfiuwehufhwih12434";
+        meal.setId(id);
+        assertThrows(Exception.class, () -> mealService.updateMeal(id, meal));
+    }
+
 
     @Test
     void testFetchMealsByPropertiesName(){
@@ -92,6 +159,7 @@ public class MealServiceTests {
         mealRepository.save(meal2);
         assertEquals(2, mealRepository.findMealsByProperties("TestMeal123131123", null, null, null, null, 0).size());
         mealRepository.delete(meal2);
+        mealRepository.delete(meal);
     }
 
     @Test
@@ -104,6 +172,7 @@ public class MealServiceTests {
         mealRepository.save(meal2);
         assertEquals(2, mealRepository.findMealsByProperties(null, "Noodles12313132", null, null, null, 0).size());
         mealRepository.delete(meal2);
+        mealRepository.delete(meal);
     }
 
     @Test
@@ -116,6 +185,7 @@ public class MealServiceTests {
         mealRepository.save(meal2);
         assertEquals(2, mealRepository.findMealsByProperties(null, null, "Carrots13452523", null, null, 0).size());
         mealRepository.delete(meal2);
+        mealRepository.delete(meal);
     }
 
     @Test
@@ -126,6 +196,7 @@ public class MealServiceTests {
         mealRepository.save(meal);
         assertEquals(initSize, mealRepository.findMealsByProperties("CarrotCake1234142", null, null, "Carrots13452523",  null, 0).size());
         assertEquals(initSize + 1, mealRepository.findMealsByProperties("CarrotCake1234142", null, null,  null, null, 0).size());
+        mealRepository.delete(meal);
     }
 
     @Test
@@ -138,6 +209,7 @@ public class MealServiceTests {
         mealRepository.save(meal2);
         assertEquals(2, mealRepository.findMealsByProperties(null, null, null, null, "Meditedi13112", 0).size());
         mealRepository.delete(meal2);
+        mealRepository.delete(meal);
     }
 
     @Test
@@ -146,6 +218,7 @@ public class MealServiceTests {
         meal.setTime(1);
         mealRepository.save(meal);
         assertEquals(size + 1, mealRepository.findMealsByProperties(null, null, null, null, null, 100).size());
+        mealRepository.delete(meal);
     }
 
     /*
@@ -160,9 +233,6 @@ public class MealServiceTests {
 
     @Test
     void testGetMealPlanNoFilter(){
-        //AfterEach
-        mealRepository.save(meal);
-
         List<Meal> mealList = mealService.getMealPlan(null, 7);
         assertEquals(7, mealList.size());
         Set<Meal> set = new HashSet<>(mealList);
@@ -184,6 +254,7 @@ public class MealServiceTests {
             fail();
         }
         assertEquals(meal, mealList.get(0));
+        mealRepository.delete(meal);
     }
     //TODO: More tests for filters with more than one criteria
 }

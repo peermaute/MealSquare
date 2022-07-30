@@ -1,12 +1,14 @@
 package dev.peermaute.mealsquare;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class to create filter criteria more easily.
  */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Filter {
 
