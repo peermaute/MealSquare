@@ -1,5 +1,7 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.meals.Meal;
+import dev.peermaute.mealsquare.meals.MealRepository;
 import dev.peermaute.mealsquare.read.file.BadFormatException;
 import dev.peermaute.mealsquare.read.file.CSVMealFileReader;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,8 +75,9 @@ public class CSVMealFileReaderTests {
     /*
     @Test
     void testLoad(){
-        List<Meal> mealList = csvMealFileReader.readFile("src/main/resources/MealCSV.CSV");
+        List<Meal> mealList = csvMealFileReader.readFile("src/main/resources/MealTable271022.CSV");
         mealRepository.saveAll(mealList);
     }
+
      */
 }

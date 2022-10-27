@@ -1,8 +1,7 @@
 package dev.peermaute.mealsquare.read.file;
 
-import dev.peermaute.mealsquare.Meal;
+import dev.peermaute.mealsquare.meals.Meal;
 
-import java.io.File;
 import java.util.List;
 
 public interface MealFileReader {

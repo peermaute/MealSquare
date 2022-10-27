@@ -1,6 +1,6 @@
 package dev.peermaute.mealsquare.read.file;
 
-import dev.peermaute.mealsquare.Meal;
+import dev.peermaute.mealsquare.meals.Meal;
 
 import java.io.*;
 import java.lang.reflect.Field;

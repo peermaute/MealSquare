@@ -1,4 +1,4 @@
-package dev.peermaute.mealsquare;
+package dev.peermaute.mealsquare.meals;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

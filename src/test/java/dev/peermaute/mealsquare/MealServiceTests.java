@@ -1,5 +1,9 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.meals.Filter;
+import dev.peermaute.mealsquare.meals.Meal;
+import dev.peermaute.mealsquare.meals.MealRepository;
+import dev.peermaute.mealsquare.meals.MealService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

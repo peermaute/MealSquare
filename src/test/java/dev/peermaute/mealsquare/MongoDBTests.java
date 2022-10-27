@@ -1,5 +1,9 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.meals.Meal;
+import dev.peermaute.mealsquare.meals.MealRepository;
+import dev.peermaute.mealsquare.users.AdminUser;
+import dev.peermaute.mealsquare.users.AdminUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +16,9 @@ class MongoDBTests {
 
     @Autowired
     MealRepository mealRepository;
+
+    @Autowired
+    AdminUserRepository adminUserRepository;
 
     @Test
     void testConnection(){

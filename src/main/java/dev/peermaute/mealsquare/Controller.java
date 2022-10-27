@@ -1,10 +1,15 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.meals.Filter;
+import dev.peermaute.mealsquare.meals.Meal;
+import dev.peermaute.mealsquare.meals.MealService;
+import dev.peermaute.mealsquare.users.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -19,9 +24,15 @@ public class Controller {
      */
     private MealService mealService;
 
+    /**
+     * The controller accesses the database indirectly through the AdminUserService.
+     */
+    private AdminUserService adminUserService;
+
     @Autowired
-    public Controller(MealService mealService){
+    public Controller(MealService mealService, AdminUserService adminUserService){
         this.mealService = mealService;
+        this.adminUserService = adminUserService;
     }
 
     /**
@@ -32,6 +43,7 @@ public class Controller {
     @GetMapping(path = "/meals/{id}")
     public ResponseEntity<?> getMeal(@PathVariable String id){
         try{
+            //TODO: allow if authenticated user
             mealService.getMeal(id);
             return new ResponseEntity<>(mealService.getMeal(id), HttpStatus.OK);
         }
@@ -47,8 +59,12 @@ public class Controller {
      * @return
      */
     @PostMapping(path = "/meals")
-    public ResponseEntity<String> newMeal(@RequestBody Meal meal){
+    public ResponseEntity<String> newMeal(@RequestBody Meal meal, Principal principal){
         try{
+            //TODO: allow if authenticated user
+            if(!adminUserService.isAdminUser(principal.getName())){
+                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            }
             mealService.newMeal(meal);
             return new ResponseEntity<>("Creation successful", HttpStatus.CREATED);
         }
@@ -63,8 +79,12 @@ public class Controller {
      * @return
      */
     @DeleteMapping(path = "/meals/{id}")
-    public ResponseEntity<String> deleteMeal(@PathVariable String id){
+    public ResponseEntity<String> deleteMeal(@PathVariable String id, Principal principal){
         try{
+            //TODO: allow users that created the meal
+            if(!adminUserService.isAdminUser(principal.getName())){
+                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            }
             mealService.deleteMeal(id);
             return new ResponseEntity<>("Deletion successful", HttpStatus.OK);
         }
@@ -80,8 +100,12 @@ public class Controller {
      * @return
      */
     @PutMapping(path = "/meals/{id}")
-    public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal){
+    public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal, Principal principal){
         try{
+            //TODO: Allow users that created the meal
+            if(!adminUserService.isAdminUser(principal.getName())){
+                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            }
             mealService.updateMeal(id, meal);
             return new ResponseEntity<>("Update successful", HttpStatus.OK);
         }

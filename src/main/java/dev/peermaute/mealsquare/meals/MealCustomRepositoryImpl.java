@@ -1,4 +1,4 @@
-package dev.peermaute.mealsquare;
+package dev.peermaute.mealsquare.meals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,5 +1,6 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.meals.Meal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
