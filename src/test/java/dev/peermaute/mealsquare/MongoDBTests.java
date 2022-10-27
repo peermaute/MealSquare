@@ -17,9 +17,6 @@ class MongoDBTests {
     @Autowired
     MealRepository mealRepository;
 
-    @Autowired
-    AdminUserRepository adminUserRepository;
-
     @Test
     void testConnection(){
         Meal meal = new Meal();
