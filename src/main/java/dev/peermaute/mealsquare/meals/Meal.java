@@ -47,6 +47,11 @@ public class Meal {
      */
     private int time;
 
+    /**
+     * ID of the creator of this meal (Meal can be updated and deleted by admins or by the creator).
+     */
+    private String creatorId;
+
     public Meal(){
         ingredients = new HashMap<>();
         tags = new ArrayList<>();

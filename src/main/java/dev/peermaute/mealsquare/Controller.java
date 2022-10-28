@@ -1,5 +1,6 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.authentication.FirebaseAuthenticationHandler;
 import dev.peermaute.mealsquare.meals.Filter;
 import dev.peermaute.mealsquare.meals.Meal;
 import dev.peermaute.mealsquare.meals.MealService;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 /**
@@ -22,28 +22,35 @@ public class Controller {
     /**
      * The controller accesses the database indirectly through the MealService.
      */
-    private MealService mealService;
+    private final MealService mealService;
 
     /**
      * The controller accesses the database indirectly through the AdminUserService.
      */
-    private AdminUserService adminUserService;
+    private final AdminUserService adminUserService;
+
+    /**
+     * Handles authentication requests
+     */
+    private final FirebaseAuthenticationHandler authenticationHandler;
 
     @Autowired
-    public Controller(MealService mealService, AdminUserService adminUserService){
+    public Controller(MealService mealService, AdminUserService adminUserService, FirebaseAuthenticationHandler authenticationHandler){
         this.mealService = mealService;
         this.adminUserService = adminUserService;
+        this.authenticationHandler = authenticationHandler;
     }
 
     /**
      * Returns the meal with the given id.
-     * @param id
-     * @return
      */
     @GetMapping(path = "/meals/{id}")
-    public ResponseEntity<?> getMeal(@PathVariable String id){
+    public ResponseEntity<?> getMeal(@PathVariable String id, @RequestHeader("Authorization") String token){
         try{
-            //TODO: allow if authenticated user
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             mealService.getMeal(id);
             return new ResponseEntity<>(mealService.getMeal(id), HttpStatus.OK);
         }
@@ -55,16 +62,15 @@ public class Controller {
     /**
      * Creates a new meal in the database.
      * This request body should contain a Meal in JSON format.
-     * @param meal
-     * @return
      */
     @PostMapping(path = "/meals")
-    public ResponseEntity<String> newMeal(@RequestBody Meal meal, Principal principal){
+    public ResponseEntity<String> newMeal(@RequestBody Meal meal, @RequestHeader("Authorization") String token){
         try{
-            //TODO: allow if authenticated user
-            if(!adminUserService.isAdminUser(principal.getName())){
-                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>("Creation failed - unauthorized", HttpStatus.UNAUTHORIZED);
             }
+            meal.setCreatorId(authenticationHandler.getUid(bearerToken));
             mealService.newMeal(meal);
             return new ResponseEntity<>("Creation successful", HttpStatus.CREATED);
         }
@@ -75,18 +81,20 @@ public class Controller {
 
     /**
      * Deletes the meal with the given id from the database.
-     * @param id
-     * @return
      */
     @DeleteMapping(path = "/meals/{id}")
-    public ResponseEntity<String> deleteMeal(@PathVariable String id, Principal principal){
+    public ResponseEntity<String> deleteMeal(@PathVariable String id, @RequestHeader("Authorization") String token){
         try{
-            //TODO: allow users that created the meal
-            if(!adminUserService.isAdminUser(principal.getName())){
-                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>("Deletion failed - unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            mealService.deleteMeal(id);
-            return new ResponseEntity<>("Deletion successful", HttpStatus.OK);
+            String userId = authenticationHandler.getUid(bearerToken);
+            if(adminUserService.isAdminUser(userId) || mealService.getMeal(id).getCreatorId().equals(userId)){
+                mealService.deleteMeal(id);
+                return new ResponseEntity<>("Deletion successful", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Deletion failed - User unauthorized", HttpStatus.UNAUTHORIZED);
         }
         catch(Exception e){
             return new ResponseEntity<>("Deletion failed:\n" + e, HttpStatus.BAD_REQUEST);
@@ -95,19 +103,20 @@ public class Controller {
 
     /**
      * Updates the meal with the given id. The request body should consist of a Meal in JSON format with the fields that should be updated.
-     * @param id
-     * @param meal
-     * @return
      */
     @PutMapping(path = "/meals/{id}")
-    public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal, Principal principal){
+    public ResponseEntity<String> updateMeal(@PathVariable String id, @RequestBody Meal meal, @RequestHeader("Authorization") String token){
         try{
-            //TODO: Allow users that created the meal
-            if(!adminUserService.isAdminUser(principal.getName())){
-                return new ResponseEntity<>("Creation failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>("Update failed - unauthorized", HttpStatus.UNAUTHORIZED);
             }
-            mealService.updateMeal(id, meal);
-            return new ResponseEntity<>("Update successful", HttpStatus.OK);
+            String userId = authenticationHandler.getUid(bearerToken);
+            if(adminUserService.isAdminUser(userId) || mealService.getMeal(id).getCreatorId().equals(userId)){
+                mealService.updateMeal(id, meal);
+                return new ResponseEntity<>("Update successful", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Update failed - User unauthorized", HttpStatus.UNAUTHORIZED);
         }
         catch(Exception e){
             return new ResponseEntity<>("Update failed:\n" + e, HttpStatus.BAD_REQUEST);
@@ -116,11 +125,13 @@ public class Controller {
 
     /**
      * Returns the meals in the database that match the filter.
-     * @param filter
-     * @return
      */
     @PostMapping(path = "/meals/filters")
-    public ResponseEntity<List<Meal>> getMealsFiltered(@RequestBody Filter filter){
+    public ResponseEntity<List<Meal>> getMealsFiltered(@RequestBody Filter filter, @RequestHeader("Authorization") String token){
+        String bearerToken = authenticationHandler.getBearerToken(token);
+        if (!authenticationHandler.verifyToken(bearerToken)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(mealService.fetchMealsByProperties(filter), HttpStatus.OK);
     }
 
@@ -129,8 +140,12 @@ public class Controller {
      * The number of days can be specified as a request parameter of the request ("days"). The default value is 5.
      */
     @PostMapping(path = "/meals/mealPlan")
-    public ResponseEntity<?> getMealPlan(@RequestParam(name = "days", required = false, defaultValue = "5") Integer days, @RequestBody Filter filter){
+    public ResponseEntity<?> getMealPlan(@RequestParam(name = "days", required = false, defaultValue = "5") Integer days, @RequestBody Filter filter, @RequestHeader("Authorization") String token){
         try{
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
             return new ResponseEntity<>(mealService.getMealPlan(filter, days), HttpStatus.OK);
         }
         catch (Exception e){

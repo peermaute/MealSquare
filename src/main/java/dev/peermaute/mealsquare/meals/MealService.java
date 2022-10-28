@@ -115,6 +115,13 @@ public class MealService {
     }
 
     /**
+     * Returns all Meals that the given user created.
+     */
+    public List<Meal> getMealsOfUser(String userId){
+        return mealRepository.findByCreatorId(userId);
+    }
+
+    /**
      * Returns a list of meals (meal plan) for a given number of days that match the filter.
      */
     public List<Meal> getMealPlan(Filter filter, int days){

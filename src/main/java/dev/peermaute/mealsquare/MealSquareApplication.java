@@ -9,13 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MealSquareApplication implements CommandLineRunner {
 
-    private MealRepository mealRepository;
-
-    @Autowired
-    public MealSquareApplication(MealRepository mealRepository){
-        this.mealRepository = mealRepository;
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(MealSquareApplication.class, args);
     }

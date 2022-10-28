@@ -17,13 +17,17 @@ public class AdminUserService {
     }
 
     public boolean isAdminUser(String firebaseId){
-        //TODO: Only Find by firebaseId
-        List<AdminUser> adminUserList = adminUserRepository.findAll();
+        //TODO: Only Find by firebaseId - testing!
+        List<AdminUser> adminUserList = adminUserRepository.findALlByFirebaseId(firebaseId);
+        return adminUserList.size() > 0;
+        /*
         for(AdminUser adminUser: adminUserList){
             if(adminUser.getFirebaseId().equals(firebaseId)){
                 return true;
             }
         }
         return false;
+
+         */
     }
 }

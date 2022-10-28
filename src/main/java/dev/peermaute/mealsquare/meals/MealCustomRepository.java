@@ -8,4 +8,5 @@ import java.util.List;
 public interface MealCustomRepository {
     List<Meal> findMealsByProperties(String name, String carbBase, String ingredient, String doesNotContain,
                                             String tag, int maxPrepTime);
+
 }
