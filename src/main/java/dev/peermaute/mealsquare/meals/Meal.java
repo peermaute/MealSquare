@@ -2,6 +2,7 @@ package dev.peermaute.mealsquare.meals;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -51,6 +52,8 @@ public class Meal {
      * ID of the creator of this meal (Meal can be updated and deleted by admins or by the creator).
      */
     private String creatorId;
+
+    private Binary image;
 
     public Meal(){
         ingredients = new HashMap<>();

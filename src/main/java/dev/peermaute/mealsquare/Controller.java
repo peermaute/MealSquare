@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -120,6 +121,28 @@ public class Controller {
         }
         catch(Exception e){
             return new ResponseEntity<>("Update failed:\n" + e, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Updates the meal with the given id. The request body should consist of a Meal in JSON format with the fields that should be updated.
+     */
+    @PostMapping(path = "/meals/{id}/image")
+    public ResponseEntity<String> newMealImage(@PathVariable String id, @RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
+        try{
+            String bearerToken = authenticationHandler.getBearerToken(token);
+            if (!authenticationHandler.verifyToken(bearerToken)) {
+                return new ResponseEntity<>("Upload failed - unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+            String userId = authenticationHandler.getUid(bearerToken);
+            if(adminUserService.isAdminUser(userId) || mealService.getMeal(id).getCreatorId().equals(userId)){
+                mealService.setImage(id, file);
+                return new ResponseEntity<>("Upload successful", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Upload failed - User unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("Upload failed:\n" + e, HttpStatus.BAD_REQUEST);
         }
     }
 
