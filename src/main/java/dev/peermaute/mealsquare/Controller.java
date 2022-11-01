@@ -43,6 +43,15 @@ public class Controller {
     }
 
     /**
+     * Welcome Page
+     */
+    @GetMapping(path = "")
+    public ResponseEntity<?> getHome(){
+        return new ResponseEntity<>("Welcome to MealSquare!\n" +
+                "Visit https://github.com/peermaute/MealSquare for more info <3", HttpStatus.OK);
+    }
+
+    /**
      * Returns the meal with the given id.
      */
     @GetMapping(path = "/meals/{id}")
