@@ -33,3 +33,39 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+/*
+jar {
+    //duplicatesStrategy = DuplicatesStrategy.INHERIT
+    manifest {
+        attributes "Main-Class": "dev.peermaute.MealSquareApplication"
+
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+
+
+    archiveName 'mealSquare.jar'
+}
+*/
+/*
+jar{
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest{
+        attributes(
+                'Main-Class': 'dev.peermaute.mealsquare.MealSquareApplication'
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    archiveName 'mealSquare.jar'
+}
+
+ */
