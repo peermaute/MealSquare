@@ -11,7 +11,7 @@ Set your own restrictions on the generated meal plan so it won't be completely r
 
 - "healthy"
 - "contains carrots"
-- carb base 
+- carb base
   "noodle based, potatoe based, rice based, bread based"
 - "mediterranean"
 
