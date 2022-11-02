@@ -1,0 +1,26 @@
+body{
+    font-family: 'Open Sans', sans-serif; 
+    font-family: 'Roboto Mono', monospace;
+    margin: 15%;
+}
+
+.mainDiv{
+    font-weight: bold;
+}
+
+.centerImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+}
+
+#mealSquareLogo{
+    border-radius: 6px;
+}
+.importantText{
+    font-weight: bold;
+}
+.centerText{
+    text-align: center;
+}
