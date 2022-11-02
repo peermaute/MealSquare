@@ -1,6 +1,7 @@
 # MealSquare
 MealSquare is an application to help you sort out what you want to cook.\
-The database contains a number of meals from my personal heavy rotation and a variety of other approved meals.
+The database contains a number of meals from my personal heavy rotation and a variety of other approved meals.\
+The API is accessible via https://api.mealsquare.peermaute.com.
 
 ## Generate a meal plan
 Generate a meal plan for the week - including a shopping list.\
