@@ -1,4 +1,4 @@
-# MealSquare
+# MealSquare API
 <img src="/src/main/resources/MealSquareLogo.png" alt="drawing" width="200"></img><br>
 MealSquare is an application to help you sort out what you want to cook.<br>
 The database contains a number of meals from my personal heavy rotation, but the best part is: **Everyone can contribute!** .<br>
