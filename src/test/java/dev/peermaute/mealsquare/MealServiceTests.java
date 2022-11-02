@@ -155,26 +155,26 @@ public class MealServiceTests {
 
     @Test
     void testFetchMealsByPropertiesName(){
-        meal.setName("TestMeal123131123");
+        meal.setName("TestMeal12313112314");
         mealRepository.save(meal);
-        assertEquals(1, mealRepository.findMealsByProperties("TestMeal123131123", null, null, null, null, 0).size());
+        assertEquals(1, mealRepository.findMealsByProperties("TestMeal12313112314", null, null, null, null, 0).size());
         Meal meal2 = new Meal();
-        meal2.setName("TestMeal123131123");
+        meal2.setName("TestMeal12313112314");
         mealRepository.save(meal2);
-        assertEquals(2, mealRepository.findMealsByProperties("TestMeal123131123", null, null, null, null, 0).size());
+        assertEquals(2, mealRepository.findMealsByProperties("TestMeal12313112314", null, null, null, null, 0).size());
         mealRepository.delete(meal2);
         mealRepository.delete(meal);
     }
 
     @Test
     void testFetchMealsByPropertiesCarbBase(){
-        meal.setCarbBase("Noodles12313132");
+        meal.setCarbBase("Noodles1231313214");
         mealRepository.save(meal);
-        assertEquals(1, mealRepository.findMealsByProperties(null, "Noodles12313132", null, null, null, 0).size());
+        assertEquals(1, mealRepository.findMealsByProperties(null, "Noodles1231313214", null, null, null, 0).size());
         Meal meal2 = new Meal();
-        meal2.setCarbBase("Noodles12313132");
+        meal2.setCarbBase("Noodles1231313214");
         mealRepository.save(meal2);
-        assertEquals(2, mealRepository.findMealsByProperties(null, "Noodles12313132", null, null, null, 0).size());
+        assertEquals(2, mealRepository.findMealsByProperties(null, "Noodles1231313214", null, null, null, 0).size());
         mealRepository.delete(meal2);
         mealRepository.delete(meal);
     }
@@ -205,13 +205,13 @@ public class MealServiceTests {
 
     @Test
     void testFetchMealsByPropertiesTag(){
-        meal.getTags().add("Meditedi13112");
+        meal.getTags().add("Meditedi1311213");
         mealRepository.save(meal);
-        assertEquals(1, mealRepository.findMealsByProperties(null, null, null, null, "Meditedi13112", 0).size());
+        assertEquals(1, mealRepository.findMealsByProperties(null, null, null, null, "Meditedi1311213", 0).size());
         Meal meal2 = new Meal();
-        meal2.getTags().add("Meditedi13112");
+        meal2.getTags().add("Meditedi1311213");
         mealRepository.save(meal2);
-        assertEquals(2, mealRepository.findMealsByProperties(null, null, null, null, "Meditedi13112", 0).size());
+        assertEquals(2, mealRepository.findMealsByProperties(null, null, null, null, "Meditedi1311213", 0).size());
         mealRepository.delete(meal2);
         mealRepository.delete(meal);
     }
