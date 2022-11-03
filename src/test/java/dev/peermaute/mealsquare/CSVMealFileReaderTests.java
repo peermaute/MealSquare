@@ -31,7 +31,7 @@ public class CSVMealFileReaderTests {
 
     @Test
     void testRead(){
-        List<Meal> mealList = csvMealFileReader.readFile("src/main/resources/MealCSV.CSV");
+        List<Meal> mealList = csvMealFileReader.readFile("src/main/resources/csvFiles/MealCSV.CSV");
     }
 
     @Test
