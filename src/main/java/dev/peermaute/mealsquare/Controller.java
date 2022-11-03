@@ -43,6 +43,13 @@ public class Controller {
         this.authenticationHandler = authenticationHandler;
     }
 
+    @RequestMapping("/api-description")
+    public ModelAndView index () {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("mealsquare-api.html");
+        return modelAndView;
+    }
+
     /**
      * Returns the meal with the given id.
      */
