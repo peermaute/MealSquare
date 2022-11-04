@@ -17,8 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class MealServiceTests {
 
-    //TODO: test edge cases
-
     @Autowired
     MealService mealService;
 
