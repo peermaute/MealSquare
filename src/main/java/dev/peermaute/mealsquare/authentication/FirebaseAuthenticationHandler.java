@@ -24,7 +24,7 @@ public class FirebaseAuthenticationHandler implements AuthenticationHandler{
     }
 
     public String getBearerToken(String fullToken) {
-        String bearerToken = null;
+        String bearerToken = fullToken;
         if (StringUtils.hasText(fullToken) && fullToken.startsWith("Bearer ")) {
             bearerToken = fullToken.substring(7);
         }
