@@ -1,5 +1,6 @@
 package dev.peermaute.mealsquare;
 
+import dev.peermaute.mealsquare.authentication.FirebaseAuthenticationHandler;
 import dev.peermaute.mealsquare.meals.Filter;
 import dev.peermaute.mealsquare.meals.Meal;
 import dev.peermaute.mealsquare.meals.MealRepository;
@@ -23,6 +24,9 @@ public class ControllerTests {
     @Autowired
     MealRepository mealRepository;
 
+    @Autowired
+    FirebaseAuthenticationHandler firebaseAuthenticationHandler;
+
     Meal meal;
 
     @BeforeEach
@@ -37,6 +41,7 @@ public class ControllerTests {
     }
 
     //TODO: Write new tests for controller (with authorization)
+
 
     /*
     @Test
