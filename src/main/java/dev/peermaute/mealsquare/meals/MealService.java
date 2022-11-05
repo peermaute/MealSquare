@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 /**
  * MealService implements all methods to access the database.
@@ -67,7 +64,9 @@ public class MealService {
             throw new IllegalArgumentException("ID must not be null");
         }
         if (mealRepository.findById(id).isPresent()) {
-            return mealRepository.findById(id).get();
+            Meal meal = mealRepository.findById(id).get();
+            meal.setCreatorId(null);
+            return meal;
         } else {
             throw new IllegalArgumentException("Meal not found in database for given id");
         }
@@ -129,14 +128,18 @@ public class MealService {
      * Searches the database for entries that match the criteria displayed by the arguments.
      */
     public List<Meal> fetchMealsByProperties(Filter filter) {
-        return mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getDoesNotContain(), filter.getTag(), filter.getMaxPrepTime());
+        List<Meal> mealList =  mealRepository.findMealsByProperties(filter.getName(), filter.getCarbBase(), filter.getIngredient(), filter.getDoesNotContain(), filter.getTag(), filter.getMaxPrepTime());
+        clearCreatorIds(mealList);
+        return mealList;
     }
 
     /**
      * Returns all Meals that the given user created.
      */
     public List<Meal> getMealsOfUser(String userId) {
-        return mealRepository.findByCreatorId(userId);
+        List<Meal> mealList = mealRepository.findByCreatorId(userId);
+        clearCreatorIds(mealList);
+        return mealList;
     }
 
     /**
@@ -149,13 +152,25 @@ public class MealService {
         if (filter == null) {
             //TODO: Use Pagination
             List<Meal> mealList = mealRepository.findAll();
-            return getRandomMeals(mealList, days);
+            List<Meal> randomisedMealList = getRandomMeals(mealList, days);
+            clearCreatorIds(randomisedMealList);
+            return randomisedMealList;
         }
         List<Meal> mealList = fetchMealsByProperties(filter);
         if (mealList.size() < days) {
             throw new IllegalArgumentException("Not enough recipes with given filters found for amount of days");
         }
-        return getRandomMeals(mealList, days);
+        List<Meal> randomisedMealList = getRandomMeals(mealList, days);
+        for(Meal meal: randomisedMealList){
+            meal.setCreatorId(null);
+        }
+        return randomisedMealList;
+    }
+
+    private void clearCreatorIds(Collection<Meal> mealCollection){
+        for(Meal meal: mealCollection){
+            meal.setCreatorId(null);
+        }
     }
 
     private List<Meal> getRandomMeals(List<Meal> mealList, int numberOfMeals) {
