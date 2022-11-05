@@ -180,13 +180,14 @@
   <body>
   <h1>MealSquare API</h1>
     <div class="app-desc">MealSquare API</div>
-    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
-    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
     <div class="app-desc">Version: 1.0.0</div>
     
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
   <h2>Access</h2>
+    <ol>
+      <li></li>
+    </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -209,7 +210,7 @@
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /meals/{id}</code></pre></div>
-    <div class="method-summary">DELETE meals/{id} (<span class="nickname">deleteMeal</span>)</div>
+    <div class="method-summary">Delete the Meal with the given id (<span class="nickname">deleteMeal</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -220,42 +221,31 @@
 
 
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
 
 
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      Object
-    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
 
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>*/*</code></li>
-    </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getMeal"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /meals/{id}</code></pre></div>
-    <div class="method-summary">GET meals/{id} (<span class="nickname">getMeal</span>)</div>
+    <div class="method-summary">Get the Meal with the given id (<span class="nickname">getMeal</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -266,42 +256,56 @@
 
 
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
+      <a href="#ResponseMeal">ResponseMeal</a>
       
-      Object
     </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>{
+  "image" : "",
+  "carbBase" : "carbBase",
+  "name" : "name",
+  "ingredients" : {
+    "amount" : "amount",
+    "ingredientName" : "ingredientName"
+  },
+  "id" : "id",
+  "time" : 0,
+  "tags" : [ "tags", "tags" ]
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="header">Content-Type</span> response header.
     <ul>
-      <li><code>*/*</code></li>
+      <li><code>application/json</code></li>
     </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#ResponseMeal">ResponseMeal</a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getMealPlan"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /meals/mealPlan</code></pre></div>
-    <div class="method-summary">POST meals/mealPlan (<span class="nickname">getMealPlan</span>)</div>
+    <div class="method-summary">Generate a Meal plan based on the given criteria (<span class="nickname">getMealPlan</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -313,14 +317,11 @@
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body <a href="#object">object</a> (required)</div>
+      <div class="param">body <a href="#Filter">Filter</a> (optional)</div>
       
             <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
                 </div>  <!-- field-items -->
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
@@ -331,34 +332,62 @@
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
+      <a href="#ArrayOfMeals">ArrayOfMeals</a>
       
-      Object
     </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>[ {
+  "image" : "",
+  "carbBase" : "carbBase",
+  "name" : "name",
+  "ingredients" : {
+    "amount" : "amount",
+    "ingredientName" : "ingredientName"
+  },
+  "id" : "id",
+  "time" : 0,
+  "tags" : [ "tags", "tags" ]
+}, {
+  "image" : "",
+  "carbBase" : "carbBase",
+  "name" : "name",
+  "ingredients" : {
+    "amount" : "amount",
+    "ingredientName" : "ingredientName"
+  },
+  "id" : "id",
+  "time" : 0,
+  "tags" : [ "tags", "tags" ]
+} ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="header">Content-Type</span> response header.
     <ul>
-      <li><code>*/*</code></li>
+      <li><code>application/json</code></li>
     </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#ArrayOfMeals">ArrayOfMeals</a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getMealsFiltered"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /meals/filters</code></pre></div>
-    <div class="method-summary">POST meals/filters (<span class="nickname">getMealsFiltered</span>)</div>
+    <div class="method-summary">Get meals based on the given filter (<span class="nickname">getMealsFiltered</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -370,47 +399,69 @@
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body <a href="#object">object</a> (required)</div>
+      <div class="param">body <a href="#Filter">Filter</a> (required)</div>
       
             <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
                 </div>  <!-- field-items -->
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
+      <a href="#ArrayOfMeals">ArrayOfMeals</a>
       
-      Object
     </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
+    <pre class="example"><code>[ {
+  "image" : "",
+  "carbBase" : "carbBase",
+  "name" : "name",
+  "ingredients" : {
+    "amount" : "amount",
+    "ingredientName" : "ingredientName"
+  },
+  "id" : "id",
+  "time" : 0,
+  "tags" : [ "tags", "tags" ]
+}, {
+  "image" : "",
+  "carbBase" : "carbBase",
+  "name" : "name",
+  "ingredients" : {
+    "amount" : "amount",
+    "ingredientName" : "ingredientName"
+  },
+  "id" : "id",
+  "time" : 0,
+  "tags" : [ "tags", "tags" ]
+} ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="header">Content-Type</span> response header.
     <ul>
-      <li><code>*/*</code></li>
+      <li><code>application/json</code></li>
     </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#ArrayOfMeals">ArrayOfMeals</a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="newMeal"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /meals</code></pre></div>
-    <div class="method-summary">POST meals (<span class="nickname">newMeal</span>)</div>
+    <div class="method-summary">Create a new meal in the database. (<span class="nickname">newMeal</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -422,47 +473,36 @@
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body <a href="#object">object</a> (required)</div>
+      <div class="param">body <a href="#RequestMeal">RequestMeal</a> (required)</div>
       
             <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
                 </div>  <!-- field-items -->
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
 
 
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      Object
-    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
 
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>*/*</code></li>
-    </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="newMealImage"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /meals/{id}/image</code></pre></div>
-    <div class="method-summary">POST meals/{id}/image (<span class="nickname">newMealImage</span>)</div>
+    <div class="method-summary">Sets the image for the Meal with the given id (<span class="nickname">newMealImage</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -473,9 +513,6 @@
 
 
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
@@ -484,36 +521,28 @@
             <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash;  format: binary</div>    </div>  <!-- field-items -->
 
 
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      Object
-    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
 
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>*/*</code></li>
-    </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateMeal"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="put"><code class="huge"><span class="http-method">put</span> /meals/{id}</code></pre></div>
-    <div class="method-summary">PUT meals/{id} (<span class="nickname">updateMeal</span>)</div>
+    <div class="method-summary">Update the Meal with the given id (<span class="nickname">updateMeal</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -530,40 +559,29 @@
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body <a href="#object">object</a> (required)</div>
+      <div class="param">body <a href="#RequestMeal">RequestMeal</a> (required)</div>
       
             <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
                 </div>  <!-- field-items -->
 
-    <h3 class="field-label">Request headers</h3>
-    <div class="field-items">
-    </div>  <!-- field-items -->
 
 
 
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      Object
-    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{ }</code></pre>
 
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
-    <ul>
-      <li><code>*/*</code></li>
-    </ul>
 
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#Object">Object</a>
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    BAD_REQUEST
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    UNAUTHORIZED
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
 
@@ -572,7 +590,62 @@
 
   <h3>Table of Contents</h3>
   <ol>
+    <li><a href="#ArrayOfMeals"><code>ArrayOfMeals</code></a></li>
+    <li><a href="#Filter"><code>Filter</code></a></li>
+    <li><a href="#RequestMeal"><code>RequestMeal</code></a></li>
+    <li><a href="#ResponseMeal"><code>ResponseMeal</code></a></li>
+    <li><a href="#ResponseMeal_ingredients"><code>ResponseMeal_ingredients</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3><a name="ArrayOfMeals"><code>ArrayOfMeals</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Filter"><code>Filter</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">carbBase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">ingredient (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">doesNotContain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">maxPrepTime (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="RequestMeal"><code>RequestMeal</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">ingredients (optional)</div><div class="param-desc"><span class="param-type"><a href="#ResponseMeal_ingredients">ResponseMeal_ingredients</a></span>  </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">carbBase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ResponseMeal"><code>ResponseMeal</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">ingredients (optional)</div><div class="param-desc"><span class="param-type"><a href="#ResponseMeal_ingredients">ResponseMeal_ingredients</a></span>  </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">carbBase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  </div>
+<div class="param">image (optional)</div><div class="param-desc"><span class="param-type"><a href="#binary">byte[]</a></span>  format: binary</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="ResponseMeal_ingredients"><code>ResponseMeal_ingredients</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">amount (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">ingredientName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
   </body>
 </html>

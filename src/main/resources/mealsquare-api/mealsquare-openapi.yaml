@@ -1,0 +1,233 @@
+openapi: "3.0.3"
+info:
+  title: "MealSquare API"
+  description: "MealSquare API"
+  version: "1.0.0"
+servers:
+  - url: "https://api.mealsquare.peermaute.com"
+paths:
+  /meals:
+    post:
+      summary: "Create a new meal in the database."
+      operationId: "newMeal"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMeal'
+        required: true
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+  /meals/filters:
+    post:
+      summary: "Get meals based on the given filter"
+      operationId: "getMealsFiltered"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfMeals'
+        "401":
+          description: "UNAUTHORIZED"
+  /meals/mealPlan:
+    post:
+      summary: "Generate a Meal plan based on the given criteria"
+      operationId: "getMealPlan"
+      parameters:
+        - name: "days"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+            default: "5"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Filter'
+        required: false
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfMeals'
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+  /meals/{id}:
+    get:
+      summary: "Get the Meal with the given id"
+      operationId: "getMeal"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMeal'
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+    put:
+      summary: "Update the Meal with the given id"
+      operationId: "updateMeal"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMeal'
+        required: true
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+    delete:
+      summary: "Delete the Meal with the given id"
+      operationId: "deleteMeal"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+  /meals/{id}/image:
+    post:
+      summary: "Sets the image for the Meal with the given id"
+      operationId: "newMealImage"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "file"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            format: "binary"
+      responses:
+        "200":
+          description: "OK"
+        "401":
+          description: "UNAUTHORIZED"
+        "400":
+          description: "BAD_REQUEST"
+components:
+  schemas:
+    ResponseMeal:
+      type: object
+      properties:
+        id:
+          type: string
+        ingredients: 
+          type: object
+          properties:
+            amount:
+              type: string
+            ingredientName:
+              type: string
+        name:
+          type: string
+        carbBase:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        time:
+          type: integer
+        image:
+          type: string
+          format: binary
+          
+    RequestMeal:
+      type: object
+      properties:
+        ingredients: 
+          type: object
+          properties:
+            amount:
+              type: string
+            ingredientName:
+              type: string
+        name:
+          type: string
+        carbBase:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        time:
+          type: integer
+          
+    Filter:
+      type: object
+      properties:
+        name:
+          type: string
+        carbBase:
+          type: string
+        ingredient:
+          type: string
+        doesNotContain:
+          type: string
+        tag:
+          type: string
+        maxPrepTime:
+          type: integer
+          
+    ArrayOfMeals:
+      type: array
+      items:
+        $ref: '#/components/schemas/ResponseMeal'
+    
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+# Apply the security globally to all operations
+security:
+  - bearerAuth: []  
